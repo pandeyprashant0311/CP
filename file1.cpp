@@ -4,20 +4,17 @@
 #include<string.h>
 #include<stdio.h>
 using namespace std;
-#define ll long long int
+#define ll long long
 #define db double
 #define S second
 #define MOD 1000000007
+
 const int  N = 1e9 + 7;
 const int  P = 1e9;
+
 vector<ll> m;
-bool *visited = new bool[100000];
-bool *visit = new bool[100000];
-int dp[100][100];
-
-
-
 ll gcd (ll a, ll b) {return ( a ? gcd(b % a, a) : b );}
+
 ll power(ll a, ll n) {ll p = 1; while (n > 0) {if (n % 2) {p = p * a;} n >>= 1; a *= a;} return p;}
 ll power(ll a, ll n, ll mod) {ll p = 1; while (n > 0) {if (n % 2) {p = p * a; p %= mod;} n >>= 1; a *= a; a %= mod;} return p % mod;}
 ll get(ll x)
@@ -40,7 +37,6 @@ ll get(ll x)
 		c++;
 	return c;
 }
-
 ll maxnum(ll a[], ll x, ll y)
 {
 	map<ll, ll> m;
@@ -62,139 +58,37 @@ ll maxnum(ll a[], ll x, ll y)
 	cout << s << " " ;
 	return s;
 }
-ll garr(ll a[], ll m, ll n)
-{
-	ll c = 0;
-	for (ll i = m; i <= n ; ++i)
-	{
-		c += a[i];
-	}
-	cout << c << endl;
-	if (c == n - m + 1)
-	{
-		return 1;
-	}
-	else
-		return 0;
-}
-class Graph
-{
-	ll V;    // No. of vertices
-
-	// Poller to an array containing
-	// adjacency lists
-	list<ll> *adj;
-
-
-	// A recursive function used by DFS
-	void DFSUtil(ll v, bool visited[]);
-public:
-	Graph(ll V);   // Constructor
-
-	// function to add an edge to graph
-	void addEdge(ll v, ll w);
-
-	// DFS traversal of the vertices
-	// reachable from v
-	void DFS(ll v, ll i);
-};
-
-Graph::Graph(ll V)
-{
-	this->V = V;
-	adj = new list<ll>[V];
-}
-
-void Graph::addEdge(ll v, ll w)
-{
-	adj[v].push_back(w);
-	adj[w].push_back(v); // Add w to v’s list.
-}
-
-void Graph::DFSUtil(ll v, bool visited[])
-{
-	// Mark the current node as visited and
-	// prll it
-	visited[v] = true;
-
-
-
-	// cout << v << " ";
-	m.push_back(v);
-
-	// Recur for all the vertices adjacent
-	// to this vertex
-	list<ll>::iterator i;
-	for (i = adj[v].begin(); i != adj[v].end(); ++i)
-		if (!visited[*i] && !visit[*i])
-			DFSUtil(*i, visited);
-
-}
-
-
-// DFS traversal of the vertices reachable from v.
-// It uses recursive DFSUtil()
-void Graph::DFS(ll v, ll i)
-{
-
-
-	for (ll i = 0; i < V; i++)
-		visited[i] = false;
-
-	visit[v] = true;
-
-
-	// Call the recursive helper function
-	// to prll DFS traversal
-	DFSUtil(v, visited);
-}
-int knap(int a[], int b[], int w, int n)
-{
-	if (n < 0 || w == 0)
-	{
-		return 0;
-	}
-	if (dp[n][w] != -1)
-	{
-
-		return dp[w][n];
-	}
-	if (w >= a[n - 1])
-	{
-		return dp[w][n] = max(b[n - 1] + knap(a, b, w - a[n - 1], n - 1), knap(a, b, w, n - 1));
-	}
-	else
-		return dp[w][n] = knap(a, b, w, n - 1);
-
-
-}
-ll d[10000];
-ll ans = INT_MIN;
-ll maxu(int n)
-{
-	d[0] = 0;
-	d[1] = 1;
-	for (ll i = 2; i <= n ; ++i)
-	{
-		ll div = 0;
-		div = d[i / 2] + d[i / 3] + d[i / 4];
-		d[i] = max(i, div);
-
-	}
-	return d[n];
-
-
-
-}
-void solve()
-{
-	ll n;
+void solve() {
+	int n;
 	cin >> n;
-	memset(d, -1, sizeof(dp));
-	cout << maxu(n) << endl;
+	string s[n];
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> s[i];
+	}
+	map<int, int> m;
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0; j < s[i].length(); j++)
+		{
+			m[s[i][j]]++;
+		}
+	}
+	for (auto i : m)
+	{
+		if (i.second % n != 0)
+		{
+			cout << "NO" << endl;
+			return;
+		}
 
-
+	}
+	cout << "YES" << endl;
 }
+
+
+
+
 
 
 int main()
@@ -207,14 +101,14 @@ int main()
 
 	ll t;
 	cin >> t;
-	// ll i = 0;
+
 
 	while (t--)
 	{
 
-		// cout << "Case #" << i + 1 << ": ";
+
 		solve();
-		// i++;
+
 	}
 	return 0;
 }
